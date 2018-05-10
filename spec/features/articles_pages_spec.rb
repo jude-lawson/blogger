@@ -74,4 +74,21 @@ RSpec.describe 'Articles Page' do
       end
     end
   end
+
+  context '/articles/:id/delete' do
+    describe 'user deletes an article' do
+      describe 'they link from the show page' do
+        it 'displays all articles without the deleted entry' do
+          
+          visit article_path(@article1)
+
+          click_link "Delete"
+
+          expect(current_path).to eq(articles_path)
+          expect(page).to have_content(@article2.title)
+          expect(page).to_not have_content(@article1.title)
+        end
+      end
+    end
+  end
 end
