@@ -57,7 +57,7 @@ RSpec.describe 'Articles Page' do
           it 'creates a new article' do
             visit articles_path
 
-            click_link "Create a New Article"
+            click_link "Create A New Article"
 
             expect(current_path).to eq(new_article_path)
             new_title = "New Title!"
