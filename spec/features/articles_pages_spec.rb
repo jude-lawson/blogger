@@ -49,4 +49,46 @@ RSpec.describe 'Articles Page' do
       end
     end
   end
+
+  context '/articles/new' do
+    describe 'user creates a new article' do
+      describe 'they link from the article index' do
+        describe 'they fill in a title and body' do
+          it 'creates a new article' do
+            visit articles_path
+
+            click_link "Create A New Article"
+
+            expect(current_path).to eq(new_article_path)
+            new_title = "New Title!"
+            new_body = "New Body!"
+
+            fill_in "article[title]", with: new_title
+            fill_in "article[body]", with: new_body
+            click_on "Create Article"
+
+            expect(page).to have_content(new_title)
+            expect(page).to have_content(new_body)
+          end
+        end
+      end
+    end
+  end
+
+  context '/articles/:id/delete' do
+    describe 'user deletes an article' do
+      describe 'they link from the show page' do
+        it 'displays all articles without the deleted entry' do
+          
+          visit article_path(@article1)
+
+          click_link "Delete"
+
+          expect(current_path).to eq(articles_path)
+          expect(page).to have_content(@article2.title)
+          expect(page).to_not have_content(@article1.title)
+        end
+      end
+    end
+  end
 end
