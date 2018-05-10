@@ -34,7 +34,7 @@ RSpec.describe 'Articles Page' do
 
         click_link(@article1.title)
 
-        expect(current_path).to eq("/article/#{@article1.id}")
+        expect(current_path).to eq("/articles/#{@article1.id}")
       end
 
       it 'they should see the information for that article' do
