@@ -10,7 +10,7 @@ RSpec.describe 'Articles Page' do
     @new_article_link_text = "Create A New Article"
   end
   
-  context 'they visit /articles' do
+  context 'showing all aticles' do
     describe 'user sees all articles'do
       it 'should display all articles' do
         visit articles_path
@@ -27,7 +27,7 @@ RSpec.describe 'Articles Page' do
     end
   end
 
-  context '/articles/show page' do
+  context 'showing an article' do
     describe 'user clicks on article link on articles page' do
       it 'they see a specific articles page' do
         visit articles_path
@@ -50,7 +50,7 @@ RSpec.describe 'Articles Page' do
     end
   end
 
-  context '/articles/new' do
+  context 'creating a new article' do
     describe 'user creates a new article' do
       describe 'they link from the article index' do
         describe 'they fill in a title and body' do
@@ -75,7 +75,7 @@ RSpec.describe 'Articles Page' do
     end
   end
 
-  context '/articles/:id/delete' do
+  context 'deleting an article' do
     describe 'user deletes an article' do
       describe 'they link from the show page' do
         it 'displays all articles without the deleted entry' do
@@ -87,6 +87,30 @@ RSpec.describe 'Articles Page' do
           expect(current_path).to eq(articles_path)
           expect(page).to have_content(@article2.title)
           expect(page).to_not have_content(@article1.title)
+        end
+      end
+    end
+  end
+
+  context 'editing an article' do
+    describe 'a user edits an article' do
+      describe 'they click the edit link on the show article page' do
+        it 'they should be able to submit edits and view the update article' do
+        
+          visit article_path(@article1)
+
+          click_link 'Edit'
+          edited_title = 'A New Title'
+          edited_body = 'This is a new article body.'
+
+          expect(current_path).to eq(edit_article_path(@article1))
+          fill_in 'article[title]', with: edited_title
+          fill_in 'article[body]', with: edited_body
+          click_button('Update Article')
+
+          expect(current_path).to eq(article_path(@article1))
+          expect(page).to have_content(edited_title)
+          expect(page).to have_content(edited_body)
         end
       end
     end
