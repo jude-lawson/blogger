@@ -67,6 +67,8 @@ RSpec.describe 'Articles Page' do
             fill_in "article[body]", with: new_body
             click_on "Create Article"
 
+            expect(page).to have_content("'#{new_title}' has been created")
+            # expect(current_path).to eq("/article/#{}")
             expect(page).to have_content(new_title)
             expect(page).to have_content(new_body)
           end
@@ -84,9 +86,12 @@ RSpec.describe 'Articles Page' do
 
           click_link "Delete"
 
+          expect(page).to have_content("Article '#{@article1.title}' has been deleted")
           expect(current_path).to eq(articles_path)
           expect(page).to have_content(@article2.title)
-          expect(page).to_not have_content(@article1.title)
+          within('#articles') do
+            expect(page).to_not have_content(@article1.title)
+          end
         end
       end
     end
@@ -108,7 +113,7 @@ RSpec.describe 'Articles Page' do
           fill_in 'article[body]', with: edited_body
           click_button('Update Article')
 
-          expect(page).to have_content("Article #{@article1.title} was updated.")
+          expect(page).to have_content("Article #{edited_title} was updated.")
           expect(current_path).to eq(article_path(@article1))
           expect(page).to have_content(edited_title)
           expect(page).to have_content(edited_body)
