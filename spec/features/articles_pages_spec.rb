@@ -108,6 +108,7 @@ RSpec.describe 'Articles Page' do
           fill_in 'article[body]', with: edited_body
           click_button('Update Article')
 
+          expect(page).to have_content("Article #{@article1.title} was updated.")
           expect(current_path).to eq(article_path(@article1))
           expect(page).to have_content(edited_title)
           expect(page).to have_content(edited_body)
